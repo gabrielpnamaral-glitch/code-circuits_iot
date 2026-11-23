@@ -1,0 +1,44 @@
+/**
+ * @file    controle.luminosidade
+ * @brief   Acionamento automático de LED baseado na luminosidade do ambiente
+ * @author  Gabriel Pereira Nunes do Amaral
+ * @date    23/11/2026
+ * @version 1.0.0
+ *
+ * @section HARDWARE - (Informar os componentes utilizados)
+ * - Microcontrolador: Arduino Uno
+ * - Entradas:
+ *   Sensor LDR (Fotorresistor) - pino analógico A0 (Divisor de tensão com resistor)
+ * - Saídas:
+ *   LED Vermelho              - pino digital 13 (Ativo em Nível Lógico Alto)
+ *
+ * @section DESCRIPTION
+ * - 1. Configura a comunicação Serial (9600 bps) e define o pino do LED como saída (setup)
+ * - 2. Realiza a leitura contínua do sensor LDR no pino A0 e exibe no Monitor Serial (loop)
+ * - 3. Verifica se o nível de luminosidade está abaixo do limite estabelecido (valor < 400)
+ * - 4. Acende o LED Vermelho quando o ambiente está escuro (valor < 400)
+ * - 5. Apaga o LED Vermelho quando o ambiente está iluminado (valor >= 400)
+ * - Mapeamento Lógico:
+ *   Leitura Analógica (0 a 1023) -> Proporcional à intensidade de luz incidente
+ */
+// C++ code
+//
+
+#define pinoLDR A0
+#define LEDVERMELHO 13
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(LEDVERMELHO, OUTPUT);
+}
+
+void loop() {
+  int valorLDR = analogRead(pinoLDR);
+  Serial.println(valorLDR);
+
+  if (valorLDR < 400) {
+    digitalWrite(LEDVERMELHO, HIGH);
+  } else {
+    digitalWrite(LEDVERMELHO, LOW);
+  }
+}
