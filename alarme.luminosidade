@@ -1,0 +1,48 @@
+/**
+ * @file    alarme_luminosidade
+ * @brief   Acionamento automático de LED e Buzzer baseado na luminosidade do ambiente
+ * @author  Gabriel Pereira Nunes do Amaral
+ * @date    23/11/2026
+ * @version 1.0.0
+ * 
+ * @section HARDWARE - (Informar os componentes utilizados)
+ * - Microcontrolador: Arduino Uno
+ * - Entradas:
+ *   Sensor LDR (Fotorresistor)    pino analógico A0 (Divisor de tensão com resistor)
+ * - Saídas:
+ *   LED Vermelho                  pino digital 13 (Ativo em Nível lógico Alto)
+ *   Buzzer (Piezo)                pino digital 8 (Emissão de som em 1500 Hz)
+ * 
+ * @section DESCRIPTION
+ * - 1. Configura a comunicação Serial (9600 bps) e define os pinos do LED e do Buzzer como saída (setup)
+ * - 2. Realiza a leitura contínua do sensor LDR no pino A0 e exibe no Monitor Serial (loop)
+ * - 3. Verifica se o nível de luminosidade está abaixo do limite estabelecido (valor < 400)
+ * - 4. Acende o LED Vermelho e aciona o Buzzer por 500ms quando o ambiente está escuro (valor < 400)
+ * - 5. Apaga o LED Vermelho quando o ambiente está iluminado (valor >= 400)
+ * - Mapeamento Lógico:
+ *   Leitura Analógica (0 a 1023) -> Proporcional à intensidade de luz incidente
+ */
+// C++ code
+//
+
+#define pinoLDR A0
+#define LEDVERMELHO 13
+#define BUZZER 8
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(LEDVERMELHO, OUTPUT);
+  pinMode(BUZZER, OUTPUT);
+}
+
+void loop() {
+  int valorLDR = analogRead(pinoLDR);
+  Serial.println(valorLDR);
+
+  if (valorLDR < 400) {
+    digitalWrite(LEDVERMELHO, HIGH);
+    tone(BUZZER, 1500, 500);
+  } else {
+    digitalWrite(LEDVERMELHO, LOW);
+  }
+}
